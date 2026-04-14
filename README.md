@@ -1,6 +1,6 @@
-# QuickStocks Dynamic Portfolio Dashboard
+# QuickStocks - A Dynamic Portfolio Dashboard
 
-A premium, full-stack real-time portfolio dashboard built for the Octa Byte AI assessment.
+A premium, full-stack real-time portfolio dashboard built for the real-time tracking of stocks.
 
 ## Tech Stack
 - **Frontend**: Next.js 15+ (App Router), TypeScript, Tailwind CSS, Recharts.
