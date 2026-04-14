@@ -14,7 +14,7 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace(/\/$/, "");
       const res = await fetch(`${API_URL}/api/portfolio`);
       if (!res.ok) throw new Error("Failed to fetch portfolio data");
       const json = await res.json();

@@ -75,7 +75,7 @@ let currentSector = "General";
 
 const loadExcelData = () => {
   try {
-    const filePath = path.join(process.cwd(), "data", "E555815F_58D029050B.xlsx");
+    const filePath = path.join(__dirname, "data", "E555815F_58D029050B.xlsx");
     const workbook = xlsx.readFile(filePath);
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     const data = xlsx.utils.sheet_to_json(sheet, { range: 1 });
