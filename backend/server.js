@@ -100,6 +100,10 @@ const loadExcelData = () => {
   }
 };
 
+app.get("/", (req, res) => {
+  res.json({ status: "QuickStocks Backend is running", endpoints: ["/api/portfolio"] });
+});
+
 app.get("/api/portfolio", async (req, res) => {
   // Use Vercel Edge Caching to dynamically fulfill the 15-second polling requirement mechanically
   res.setHeader('Cache-Control', 's-maxage=15, stale-while-revalidate=59');
