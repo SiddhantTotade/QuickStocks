@@ -8,7 +8,14 @@ const xlsx = require("xlsx");
 const { scrapeStockData } = require("./services/scraper");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    /\.vercel\.app$/
+  ],
+  methods: ["GET"],
+  credentials: false
+}));
 
 const PORT = 5000;
 
