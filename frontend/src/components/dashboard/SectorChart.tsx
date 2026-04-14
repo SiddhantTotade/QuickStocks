@@ -37,7 +37,7 @@ export default function SectorChart({ data }: SectorChartProps) {
               wrapperStyle={{ zIndex: 100, outline: "none" }}
               contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "8px", fontSize: "10px", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)", opacity: 1 }}
               itemStyle={{ color: "#2a3439", fontWeight: "bold" }}
-              formatter={(value: number) => `₹${value.toLocaleString("en-IN")}`}
+              formatter={(value: any) => `₹${Number(value).toLocaleString("en-IN")}`}
             />
           </PieChart>
         </ResponsiveContainer>

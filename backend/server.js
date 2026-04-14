@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const path = require("path");
 const csv = require("csv-parser");
 const xlsx = require("xlsx");
 
@@ -67,7 +68,8 @@ let currentSector = "General";
 
 const loadExcelData = () => {
   try {
-    const workbook = xlsx.readFile("./data/E555815F_58D029050B.xlsx");
+    const filePath = path.join(process.cwd(), "data", "E555815F_58D029050B.xlsx");
+    const workbook = xlsx.readFile(filePath);
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     const data = xlsx.utils.sheet_to_json(sheet, { range: 1 });
 
@@ -93,16 +95,21 @@ const loadExcelData = () => {
     });
 
     console.log(`Excel Loaded: ${portfolioData.length} stocks found.`);
-    updateAllPrices();
   } catch (error) {
     console.error("Excel Load Error:", error.message);
   }
 };
 
-loadExcelData();
-setInterval(updateAllPrices, 15000);
+app.get("/api/portfolio", async (req, res) => {
+  // Use Vercel Edge Caching to dynamically fulfill the 15-second polling requirement mechanically
+  res.setHeader('Cache-Control', 's-maxage=15, stale-while-revalidate=59');
 
-app.get("/api/portfolio", (req, res) => {
+  if (portfolioData.length === 0) {
+    loadExcelData();
+  }
+  
+  await updateAllPrices();
+
   res.json({
     stocks: portfolioData,
     stats: calculateGlobalMetrics(),
@@ -110,4 +117,9 @@ app.get("/api/portfolio", (req, res) => {
   });
 });
 
-app.listen(PORT, () => console.log(`Backend Running on PORT : ${PORT}`));
+// Fallback for local testing, ignored by Vercel
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`Backend Running locally on PORT : ${PORT}`));
+}
+
+module.exports = app;
